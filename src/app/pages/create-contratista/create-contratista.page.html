@@ -1,0 +1,64 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Trabajos</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <!-- aaa -->
+    <ion-grid fixed no-padding>
+        <ion-row>
+            <ion-col size="12" padding>
+                <form [formGroup]="contratistaForm">
+                    <ion-list margin-bottom>
+                        <ion-radio-group formControlName="plan_id">
+                            <ion-list-header color="light">
+                                <ion-label class="fw700">Elige un plan</ion-label>
+                            </ion-list-header>
+
+                            <ion-item *ngFor="let plan of arrayPlanes">
+                                <ion-label color="primary">{{plan.titulo}}</ion-label>
+                                <ion-radio slot="start" [value]="plan.id"></ion-radio>
+                            </ion-item>
+                        </ion-radio-group>
+                    </ion-list>
+                    <ion-list>
+                        <ion-list-header color="light">
+                            <ion-label class="fw700">Escribe una breve reseña</ion-label>
+                        </ion-list-header>
+
+                        <ion-item>
+                            <!-- <ion-label color="dark" position="stacked">Descripción:</ion-label> -->
+                            <ion-input inputmode="text" placeholder="Descripción" formControlName="descripcion"></ion-input>
+                            <p ion-text class="text08" *ngIf="f.descripcion.touched && f.descripcion.errors?.required">
+                                <ion-text color="warning">
+                                    La descripción es requerida
+                                </ion-text>
+                            </p>
+                            <p ion-text class="text08" *ngIf="f.descripcion.touched && f.descripcion.errors?.maxlength">
+                                <ion-text color="warning">
+                                    El nombre es requerido
+                                </ion-text>
+                            </p>
+                        </ion-item>
+
+                    </ion-list>
+                </form>
+                <ion-list>
+                    <ion-list-header color="light">
+                        <ion-label class="fw700">Elige tus habilidades</ion-label>
+                    </ion-list-header>
+                    <ion-item *ngFor="let trabajo of arrayTiposTrabajo">
+                        <ion-label class="text-1x">{{trabajo.nombre}}</ion-label>
+                        <ion-checkbox (click)="agregarTrabajo(trabajo.id)"></ion-checkbox>
+                    </ion-item>
+                </ion-list>
+                <ion-button size="large" expand="full" color="dark" (click)="onSumit()" no-margin>Guardar</ion-button>
+
+
+
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <!-- bbb -->
+</ion-content>
