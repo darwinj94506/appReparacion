@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {ContratistaService} from '../../services/contratista.service';
+
 import {
   NavController,
   AlertController,
@@ -29,7 +31,8 @@ export class HomeResultsPage {
     public popoverCtrl: PopoverController,
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    private _contratistaService:ContratistaService
   ) {
 
   }

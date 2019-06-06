@@ -4,32 +4,40 @@ import { HttpClient } from '@angular/common/http';
 import { UsuarioModel } from '../models/usuario.model';
 import { RegistroModel } from '../models/registro.model';
 import { LoginModel } from '../models/login.model';
+import { Observable, BehaviorSubject, from } from 'rxjs';
+import { Subject } from 'rxjs';
 const URL=environment.url;
 import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
-
-  usuario:LoginModel;
-  usuarioCompleto:UsuarioModel;
+  usuarioSubject = new BehaviorSubject<UsuarioModel>(null);
+  usuario$: Observable<UsuarioModel>;
+  datosUsuario:UsuarioModel;  
   constructor(public http: HttpClient) {
-    this.usuarioCompleto = JSON.parse( localStorage.getItem('usuario1') );
+    this.usuario$=this.usuarioSubject.asObservable();
+    this.obtenerUsuario();
+    this.usuario$.subscribe(datos=>{
+      // console.log(datos);
+      this.datosUsuario=datos
+    });
    }
    obtenerUsuario():UsuarioModel{
-		return JSON.parse(localStorage.getItem('usuario1'));
+    let usuario:UsuarioModel=JSON.parse(localStorage.getItem('usuario1'));
+    this.usuarioSubject.next(usuario);
+    return usuario;
 	}
 
    guardarStorage( usuario: UsuarioModel ) {
 		console.log(usuario);
 		localStorage.setItem('usuario1', JSON.stringify(usuario) );
-		this.usuarioCompleto = usuario;
+		this.usuarioSubject.next(usuario);
     } 
     
     borrarStorage() {
       //El modelo usuario se iguala a null para que no quede cargado los datos
-      this.usuarioCompleto=null;
-      this.usuario=null;
+      this.usuarioSubject.next(null);
       //Elimina el usuario del localstorage(almacenamiento local),elimina un elemento por clave de LocalStorage
       localStorage.removeItem('usuario1');
       }
@@ -43,6 +51,7 @@ export class UsuarioService {
               return false
             }else{
               this.guardarStorage( resp );
+              this.usuarioSubject.next(resp);
               return true;
             }
             // console.log(resp);
@@ -63,13 +72,14 @@ export class UsuarioService {
       let url = URL+'user/edit-userap?api_token='+usuario.api_token;	
       return this.http.put(url, usuario).pipe(map( (resp: any) => {
         this.guardarStorage( resp );
+        this.usuarioSubject.next(resp);
         }));
     }
 
-    logoutUsuario( usuario: UsuarioModel ){
-      this.usuarioCompleto = usuario;
-      let url = URL+'logoutAPI?api_token='+this.usuarioCompleto.api_token;
+    logoutUsuario(){
+      let url = URL+'logoutAPI?api_token='+this.datosUsuario.api_token;
       //realiza la peticion map recibe la respuesta
+      this.usuarioSubject.next(null);
       return this.http.get(url).pipe(map(resp => {
         this.borrarStorage();
       }))

@@ -39,7 +39,7 @@ export class ContratistaService {
 
 	//logica de update contratista
 	getContratistaLogueado():Observable<any>{
-		return this.http.get<any>(URL+`userap?api_token=`+this._usuarioService.usuarioCompleto.api_token);
+		return this.http.get<any>(URL+`userap?api_token=`+this._usuarioService.datosUsuario.api_token);
 	}
 
 	updateContratistaTipoTrabajo(contratistaTipotrabajo:ContratistaTipoTrabajoModel): Observable<any> {

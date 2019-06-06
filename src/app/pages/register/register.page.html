@@ -51,6 +51,24 @@
                     La contraseña es requerida
                 </ion-text>
             </p>
+            
+            <ion-item no-padding class="animated fadeInUp">
+                <ion-label position="floating">
+                    <ion-icon name="lock" item-start></ion-icon>
+                    Repita la contraseña
+                </ion-label>
+                <ion-input color="secondary" type="password" formControlName="confirmPassword"></ion-input>
+            </ion-item>
+            <p ion-text color="warning" class="text08" *ngIf="onRegisterForm.get('confirmPassword').touched && onRegisterForm.get('confirmPassword').hasError('required')">
+                <ion-text color="warning">
+                    Confirmar contraseña es requerido
+                </ion-text>
+            </p>
+             <p ion-text color="warning" class="text08" *ngIf="onRegisterForm.get('confirmPassword').touched && onRegisterForm.get('confirmPassword').hasError('mustMatch')">
+                <ion-text color="warning">
+                    Las contraseñas no coinciden
+                </ion-text>
+            </p>
 
             <ion-item no-padding class="animated fadeInUp">
                 <ion-label position="floating">

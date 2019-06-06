@@ -93,16 +93,18 @@ export class LoginPage implements OnInit {
     this.navCtrl.navigateRoot('/home-results');
   }
 
-  ingresar(){
+  async ingresar(){
+    const loader = await this.loadingCtrl.create();
+    loader.present();
     this._usuarioService.login(this.onLoginForm.value).subscribe(res=>{
-      console.log(res);
-      if(res){
+      loader.dismiss();
+      if(res)
         this.navCtrl.navigateRoot('/home-results');
-     }
-     else{
+      else
        alert("Datos incorrectos");
-     }
+     
     },error=>{
+      loader.dismiss();
       alert("Ha ocurrido un error, vuelva a intentarlo");
     })
   }

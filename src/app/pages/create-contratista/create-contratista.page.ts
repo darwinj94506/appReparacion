@@ -5,9 +5,8 @@ import {ContratistaService} from '../../services/contratista.service';
 import{ContratistaModel} from '../../models/contratista.model';
 import{UsuarioModel} from '../../models/usuario.model';
 import {ContratistaTipoTrabajoModel} from '../../models/contratistaTipoTrabajo.model';
-import{UsuarioService} from '../../services/usuario.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NavController, MenuController, LoadingController } from '@ionic/angular';
+import { NavController, MenuController, LoadingController,ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-create-contratista',
@@ -28,15 +27,12 @@ export class CreateContratistaPage implements OnInit {
     public menuCtrl: MenuController,
     public loadingCtrl: LoadingController,
     private _contratistaService:ContratistaService,
-    private _usuarioService:UsuarioService,
+    public toastCtrl: ToastController,
     private activatedRoute: ActivatedRoute) {
    }
 
   ngOnInit() {
     this.idusuario=this.activatedRoute.snapshot.params.idusuario;
-      
-
-    // this.Usuario=this._usuarioService.usuarioCompleto;
     this.createForm();
     this.getPlanes();
     this.getTipoTrabajo();
@@ -65,13 +61,12 @@ export class CreateContratistaPage implements OnInit {
 
 	createForm() {
 		this.contratistaForm = this._formBuilder.group({
-			plan_id: [2, Validators.required],
+			plan_id: [1, Validators.required],
 			descripcion:['',[Validators.required,Validators.maxLength(255)]]
 		});
   }
   
   prepareContratista(): ContratistaModel {
-
 		const controls = this.contratistaForm.controls;
 		const _contratista = new ContratistaModel();
 		_contratista.plan_id = controls['plan_id'].value;
@@ -85,32 +80,41 @@ export class CreateContratistaPage implements OnInit {
     this.guardarContratista()
   }
 
-  guardarContratista(){
-      //guarda el contratista
-      console.log(this.prepareContratista());
-      this._contratistaService.createContratista(this.prepareContratista()).subscribe((res:any)=>{
-        //una vez guardado se guardan sus areas
-      this.guardarAreas(res.id);
-      console.log(res);
-    },error=>{
-      // swal('Error', 'Error al guardar contratista, por favor inténtelo nuevamente, error:'+error.message, 'warning');
-      console.log(error);
-    })
+  async guardarContratista(){
+    const loader = await this.loadingCtrl.create();
+    loader.present();
+    console.log(this.prepareContratista());
+    this._contratistaService.createContratista(this.prepareContratista()).subscribe((res:any)=>{
+      //una vez guardado se guardan sus areas
+      this.guardarAreas(res.id,loader);
+      },error=>{
+        loader.dismiss(false);
+        console.log(error);
+      })
   }
-  guardarAreas(idcontratista){
-    // prepearar datos
-    console.log(this.trabajosSelecionados);
-    // let idsTrabajos:any []=[];
-    // this.trabajosSelecionados.forEach(trabajo=>{
-    //   idsTrabajos.push(trabajo.id);
-    // })
-
-    this._contratistaService.createContratistaTipoTrabajo(new ContratistaTipoTrabajoModel(idcontratista,this.trabajosSelecionados)).subscribe((res)=>{
+  guardarAreas(idcontratista,loader){
+    
+    this._contratistaService.createContratistaTipoTrabajo(new ContratistaTipoTrabajoModel(idcontratista,this.trabajosSelecionados)).
+      subscribe((res)=>{
           console.log(res);
-          this.navCtrl.navigateRoot('/');
+          loader.dismiss(true);
         },error=>{
-          console.log(error);
+          loader.dismiss(false);
         })  
+        loader.onWillDismiss().then(async l => {
+          if(l){
+            const toast = await this.toastCtrl.create({
+              showCloseButton: true,
+              cssClass: 'bg-profile',
+              message: 'Datos guardados correctamente',
+              duration: 3000,
+              position: 'bottom'
+            });
+      
+            toast.present();
+            this.navCtrl.navigateRoot('/');
+          }
+        });
   }
   agregarTrabajo(idtrabajo:number){
     this.trabajosSelecionados.push(idtrabajo);
