@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import{environment} from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import{UsuarioService} from './usuario.service';
-// import { Observable } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { ContratistaTipoTrabajoModel } from '../models/contratistaTipoTrabajo.model';
 import { Observable, BehaviorSubject, from } from 'rxjs';
 const URL=environment.url;
@@ -52,4 +52,12 @@ export class ContratistaService {
 		// const httpHeaders = this.httpUtils.getHTTPHeaders();
 		return this.http.put<any>(URL+'contratista/'+contratista.id, contratista);
 	}
+	contratosContratistas( id ){
+		let url = URL+'contratista-contratos/'+id;
+		return this.http.get(url);	
+	}
+
+
+
+
 }

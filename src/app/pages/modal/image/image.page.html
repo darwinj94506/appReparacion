@@ -1,13 +1,43 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-button size="small" shape="round" (click)="closeModal()" color="tertiary">
-        <ion-icon slot="start" name="close"></ion-icon> Close
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-button size="small" shape="round" (click)="closeModal()" color="tertiary">
+                <ion-icon slot="start" name="close"></ion-icon> Cerrar
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end" *ngIf="value.estado_id && value.estado_id==1">
+            <ion-toggle [(ngModel)]="estadoEnprogreso" (ionChange)="cambiarAEnprogreso($event)"></ion-toggle>Aceptar
+        </ion-buttons>
+        <ion-buttons slot="end" *ngIf="value.estado_id && value.estado_id==2">
+            <ion-toggle [(ngModel)]="estadoTerminado" (ionChange)="cambiarATerminado($event)"></ion-toggle>Terminar
+        </ion-buttons>
+
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <img [src]="value">
+    <img [src]="image">
+    <ion-card>
+        <ion-card-header>
+            <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
+            <ion-card-title>Descripción</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+            {{value?.descripcion}}
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-item>
+            <ion-icon name="pin" slot="start"></ion-icon>
+            <ion-label>Gloogle maps</ion-label>
+            <ion-button fill="outline" slot="end" (click)="presentUbicacion(1)">Ver</ion-button>
+        </ion-item>
+
+        <ion-card-content>
+            En esta ubicación se solicito el servicio, seleccione para ver abrir el mapa
+        </ion-card-content>
+    </ion-card>
+
 </ion-content>

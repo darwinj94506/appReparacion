@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import {ContratistaService} from '../../services/contratista.service';
+import {UsuarioService} from '../../services/usuario.service';
 
 import {
   NavController,
@@ -7,6 +8,7 @@ import {
   MenuController,
   ToastController,
   PopoverController,
+  LoadingController,
   ModalController } from '@ionic/angular';
 
 // Modals
@@ -20,11 +22,13 @@ import { NotificationsComponent } from './../../components/notifications/notific
   templateUrl: './home-results.page.html',
   styleUrls: ['./home-results.page.scss']
 })
-export class HomeResultsPage {
+export class HomeResultsPage implements OnInit{
   searchKey = '';
   yourLocation = '123 Test Street';
   themeCover = 'assets/img/ionic4-Start-Theme-cover.jpg';
-
+  contratos:any[]=[];
+  contratosFiltrados:any=[];
+  filtro:number=1;
   constructor(
     public navCtrl: NavController,
     public menuCtrl: MenuController,
@@ -32,13 +36,41 @@ export class HomeResultsPage {
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
     public toastCtrl: ToastController,
-    private _contratistaService:ContratistaService
+    private _contratistaService:ContratistaService,
+    private _usuarioService:UsuarioService,
+    public loadingCtrl: LoadingController
   ) {
 
   }
 
   ionViewWillEnter() {
     this.menuCtrl.enable(true);
+  }
+  ngOnInit(){
+    this.cargarContratos(this.filtro);
+   
+  }
+  async cargarContratos(filtro:number){
+    const loader = await this.loadingCtrl.create({
+      message: 'Por favor espere...',
+      spinner:'circles'
+    });
+    loader.present();
+    this._contratistaService.getContratistaLogueado().subscribe(res=>{
+      console.log(res);
+      this._contratistaService.contratosContratistas(res.contratista[0].id).subscribe((res:any)=>{
+        console.log(res);
+        this.contratos=res.contratos;
+        this.contratosFiltrados=this.contratos.filter(contrato=>contrato.estado_id==filtro);
+        loader.dismiss(true);
+      },error=>{
+        alert("A ocurrido un error vuelva a intentarlo");
+        loader.dismiss(false);
+      })
+    },error=>{
+      alert("A ocurrido un error vuelva a intentarlo");
+      loader.dismiss(false);
+    })
   }
 
   settings() {
@@ -91,12 +123,17 @@ export class HomeResultsPage {
     return await modal.present();
   }
 
-  async presentImage(image: any) {
+  async presentContrato(contrato: any) {
     const modal = await this.modalCtrl.create({
       component: ImagePage,
-      componentProps: { value: image }
+      componentProps: { value: contrato }
     });
-    return await modal.present();
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    if(data){
+      this.cargarContratos(this.filtro);
+    }
+    console.log(data);
   }
 
   async notifications(ev: any) {
@@ -108,5 +145,23 @@ export class HomeResultsPage {
     });
     return await popover.present();
   }
+
+  segmentChanged(ev: any) {
+    if(ev.detail.value=="pendientes"){
+      this.filtro=1;
+      this.contratosFiltrados=this.contratos.filter(contrato=>contrato.estado_id==1)
+    } 
+    else if(ev.detail.value=="progreso"){
+      this.filtro=2;
+      this.contratosFiltrados=this.contratos.filter(contrato=>contrato.estado_id==2)
+    }
+    else if(ev.detail.value=="terminadas"){
+      this.filtro=3;
+      this.contratosFiltrados=this.contratos.filter(contrato=>contrato.estado_id==3)
+    }
+      
+  }
+    
+    
 
 }

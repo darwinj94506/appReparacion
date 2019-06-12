@@ -56,7 +56,10 @@ export class EditProfilePage implements OnInit {
   }
 
   async sendData() {
-    const loader = await this.loadingCtrl.create();
+    const loader = await this.loadingCtrl.create({
+      message: 'Por favor espere...',
+      spinner:'circles'
+    });
     loader.present();
     this.prepareData();
     this._usuarioService.actualizarUsuario(this.usuario).subscribe(res=>{
@@ -69,7 +72,8 @@ export class EditProfilePage implements OnInit {
 
     
     loader.onWillDismiss().then(async l => {
-      if(l){
+      console.log(l);
+      if(l.data){
         const toast = await this.toastCtrl.create({
           showCloseButton: true,
           cssClass: 'bg-profile',

@@ -8,7 +8,8 @@ const routes: Routes = [
   { path: 'settings', loadChildren: './pages/settings/settings.module#SettingsPageModule' },
   { path: 'edit-profile', loadChildren: './pages/edit-profile/edit-profile.module#EditProfilePageModule' },
   { path: 'home-results', loadChildren: './pages/home-results/home-results.module#HomeResultsPageModule' },
-  { path: 'create-contratista/:idusuario', loadChildren: './pages/create-contratista/create-contratista.module#CreateContratistaPageModule' },
+  { path: 'create-contratista/:idusuario', loadChildren: './pages/create-contratista/create-contratista.module#CreateContratistaPageModule' },  { path: 'map', loadChildren: './pages/modal/map/map.module#MapPageModule' },
+
 
 ];
 
