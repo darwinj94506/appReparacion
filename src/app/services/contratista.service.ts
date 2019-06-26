@@ -53,8 +53,13 @@ export class ContratistaService {
 		return this.http.put<any>(URL+'contratista/'+contratista.id, contratista);
 	}
 	contratosContratistas( id ){
-		let url = URL+'contratista-contratos/'+id;
+		let url = URL+'contratista-contratos-user/'+id;
 		return this.http.get(url);	
+	}
+	//para actualizar el estado del contrato
+	updateContrato( contrato ){
+		let url = URL+'contrato/edit/'+contrato.id;
+		return this.http.post(url,contrato);	
 	}
 
 

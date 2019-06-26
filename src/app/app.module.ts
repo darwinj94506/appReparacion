@@ -20,6 +20,7 @@ import { MapPageModule } from './pages/modal/map/map.module';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 
 
+
 @NgModule({
   declarations: [AppComponent, NotificationsComponent],
   imports: [
@@ -30,7 +31,8 @@ import { NotificationsComponent } from './components/notifications/notifications
     HttpClientModule,
     ImagePageModule,
     SearchFilterPageModule,
-    MapPageModule
+    MapPageModule,
+   
   ],
   entryComponents: [NotificationsComponent],
   providers: [

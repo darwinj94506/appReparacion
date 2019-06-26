@@ -75,8 +75,14 @@
         </ion-list-header>
 
         <ion-item *ngFor="let contrato of contratosFiltrados">
-            <ion-label color="dark" position="stacked" (click)="presentContrato(contrato)">{{contrato.descripcion}}</ion-label>
+            <!-- <ion-label color="dark" position="stacked" (click)="presentContrato(contrato)">{{contrato.descripcion}}</ion-label> -->
+            <ion-label (click)="presentContrato(contrato)">
+                <h2>{{contrato?.user?.name}}</h2>
+                <p>{{contrato?.descripcion}}</p>
+                <ion-note item-end>{{contrato?.created_at | date}}</ion-note>
+            </ion-label>
             <ion-avatar slot="end">
+                <ion-note item-start *ngIf="contrato.costo">visto</ion-note>
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC4wa2MsIT5OfmSzYpKe6lCFgK-96cnDmTwT--kcsYksX09wKt">
             </ion-avatar>
         </ion-item>

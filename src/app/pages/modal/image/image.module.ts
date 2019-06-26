@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { ImagePage } from './image.page';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 const routes: Routes = [
   {
@@ -16,6 +18,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     IonicModule,
     RouterModule.forChild(routes)
   ],

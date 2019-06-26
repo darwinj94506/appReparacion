@@ -6,7 +6,7 @@
             </ion-button>
         </ion-buttons>
         <ion-buttons slot="end" *ngIf="value.estado_id && value.estado_id==1">
-            <ion-toggle [(ngModel)]="estadoEnprogreso" (ionChange)="cambiarAEnprogreso($event)"></ion-toggle>Aceptar
+            <ion-toggle [(ngModel)]="estadoEnprogreso" (ionChange)="cambiarARechazado($event)"></ion-toggle>Rechazar
         </ion-buttons>
         <ion-buttons slot="end" *ngIf="value.estado_id && value.estado_id==2">
             <ion-toggle [(ngModel)]="estadoTerminado" (ionChange)="cambiarATerminado($event)"></ion-toggle>Terminar
@@ -39,5 +39,22 @@
             En esta ubicación se solicito el servicio, seleccione para ver abrir el mapa
         </ion-card-content>
     </ion-card>
+
+    <ion-card>
+        <ion-item>
+            <ion-label>Precio</ion-label>
+            <ion-input inputmode="text" placeholder="" [formControl]="precio"></ion-input>
+        </ion-item>
+        <ion-card-content>
+            Ingrese el precio que cobraría por realizar este trabajo
+        </ion-card-content>
+        <ion-button size="large" expand="full" color="dark" (click)="sendData()" no-margin>Enviar </ion-button>
+    </ion-card>
+
+    <!-- <div padding>
+        <ion-text color="dark" no-margin>
+            Al enviar el 
+        </ion-text>
+    </div> -->
 
 </ion-content>

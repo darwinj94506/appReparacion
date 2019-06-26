@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
-
+import { AgmCoreModule } from '@agm/core';
 import { MapPage } from './map.page';
 
 const routes: Routes = [
@@ -19,7 +19,10 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAlGcShI4XYOMRrE_5x5HyBMctC-ZxDLhY'
+    })
   ],
   declarations: [MapPage],
   entryComponents:[

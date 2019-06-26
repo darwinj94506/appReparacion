@@ -1,11 +1,15 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>map</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-button size="small" shape="round" (click)="closeModal()" color="tertiary">
+                <ion-icon slot="start" name="close"></ion-icon> Cerrar
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-<div id="map_canvas">
-    <ion-button ion-button (click)="onButtonClick()">Demo</ion-button>
-  </div>
+<agm-map [latitude]="lat" [longitude]="lng">
+  <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+</agm-map>
 </ion-content>
