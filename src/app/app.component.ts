@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 
-import { Platform, NavController } from '@ionic/angular';
+import { Platform, NavController,LoadingController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import {UsuarioService} from './services/usuario.service';
+import {UsuarioModel} from './models/usuario.model';
 
 import { Pages } from './interfaces/pages';
 
@@ -14,22 +16,25 @@ import { Pages } from './interfaces/pages';
 export class AppComponent {
 
   public appPages: Array<Pages>;
+  public Usuario:UsuarioModel;
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    public navCtrl: NavController
+    public loadingCtrl: LoadingController,
+    public navCtrl: NavController,
+    public _usuarioService:UsuarioService
   ) {
     this.appPages = [
       {
-        title: 'Home',
+        title: 'Inicio',
         url: '/home-results',
         direct: 'root',
         icon: 'home'
       },
       {
-        title: 'About',
+        title: 'Información',
         url: '/about',
         direct: 'forward',
         icon: 'information-circle-outline'
@@ -57,7 +62,16 @@ export class AppComponent {
     this.navCtrl.navigateForward('edit-profile');
   }
 
-  logout() {
-    this.navCtrl.navigateRoot('/');
+  async logout() {
+    const loader = await this.loadingCtrl.create();
+    loader.present();
+    this._usuarioService.logoutUsuario().subscribe(res=>{
+      loader.dismiss();
+      this.navCtrl.navigateRoot('/');
+    },error=>{
+      loader.dismiss();
+      alert("Ha ocurrido un error vuela a intentarlo");
+    })
+    
   }
 }

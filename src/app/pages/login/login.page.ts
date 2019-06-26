@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController, MenuController, ToastController, AlertController, LoadingController } from '@ionic/angular';
-
+import { UsuarioService } from '../../services/usuario.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -16,7 +16,8 @@ export class LoginPage implements OnInit {
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private _usuarioService:UsuarioService
   ) { }
 
   ionViewWillEnter() {
@@ -24,7 +25,10 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
+    this.initForm();
+  }
 
+  initForm(){
     this.onLoginForm = this.formBuilder.group({
       'email': [null, Validators.compose([
         Validators.required
@@ -87,6 +91,22 @@ export class LoginPage implements OnInit {
 
   goToHome() {
     this.navCtrl.navigateRoot('/home-results');
+  }
+
+  async ingresar(){
+    const loader = await this.loadingCtrl.create();
+    loader.present();
+    this._usuarioService.login(this.onLoginForm.value).subscribe(res=>{
+      loader.dismiss();
+      if(res)
+        this.navCtrl.navigateRoot('/home-results');
+      else
+       alert("Datos incorrectos");
+     
+    },error=>{
+      loader.dismiss();
+      alert("Ha ocurrido un error, vuelva a intentarlo");
+    })
   }
 
 }

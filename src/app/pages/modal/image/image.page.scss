@@ -1,11 +1,16 @@
 :host {
-  ion-content {
-    --background: linear-gradient(-135deg, var(--ion-color-medium), var(--ion-color-light))
-  }
+    ion-content {
+        --background: linear-gradient(-135deg, var(--ion-color-medium), var(--ion-color-light))
+    }
 }
 
 ion-content {
     img {
         object-fit: cover;
     }
+}
+
+#map {
+    width: 100%;
+    height: 80vh;
 }
