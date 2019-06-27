@@ -9,6 +9,8 @@ const routes: Routes = [
   { path: 'edit-profile', loadChildren: './pages/edit-profile/edit-profile.module#EditProfilePageModule' },
   { path: 'home-results', loadChildren: './pages/home-results/home-results.module#HomeResultsPageModule' },
   { path: 'create-contratista/:idusuario', loadChildren: './pages/create-contratista/create-contratista.module#CreateContratistaPageModule' },  { path: 'map', loadChildren: './pages/modal/map/map.module#MapPageModule' },
+  { path: 'anuncios', loadChildren: './pages/anuncios/anuncios.module#AnunciosPageModule' },
+  { path: 'crud-anuncio', loadChildren: './pages/modal/crud-anuncio/crud-anuncio.module#CrudAnuncioPageModule' },
 
 
 ];

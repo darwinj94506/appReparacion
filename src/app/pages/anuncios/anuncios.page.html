@@ -1,0 +1,65 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button color="secondary"></ion-menu-button>
+        </ion-buttons>
+        <ion-title>
+            <ion-text color="light">
+                <ion-text color="light" class="fw700">Mis anuncios</ion-text>
+            </ion-text>
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button size="small" shape="round" color="medium" (click)="notifications()">
+                <ion-icon name="notifications"></ion-icon>
+                <ion-badge color="dark" slot="end">2</ion-badge>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+    <ion-toolbar color="dark">
+        <ion-searchbar [(ngModel)]="searchKey"></ion-searchbar>
+        <ion-buttons slot="end">
+            <ion-button size="small" shape="round" color="medium" (click)="searchFilter()">
+                <ion-icon name="options"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    
+
+  <!-- fab placed to the bottom end -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="presentAnuncio(null)">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  
+    <ion-list margin-bottom>
+        <ion-list-header color="light">
+            <ion-segment (ionChange)="segmentChanged($event)" value="pendientes">
+                <ion-segment-button value="pendientes">
+                    <ion-label>Pendientes</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="aprobados">
+                    <ion-label>Aprobadas</ion-label>
+                </ion-segment-button>
+                
+            </ion-segment>
+        </ion-list-header>
+
+        <ion-item *ngFor="let anuncio of anunciosFiltrados">
+            <ion-label (click)="presentAnuncio(anuncio)">
+                <h2>{{anuncio?.titulo}}</h2>
+                <p>{{anuncio?.descripcion}}</p>
+                <ion-note item-end>{{anuncio?.created_at | date}}</ion-note>
+            </ion-label>
+            <!-- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC4wa2MsIT5OfmSzYpKe6lCFgK-96cnDmTwT--kcsYksX09wKt"> -->
+
+            <ion-avatar slot="end">
+                <img src="http://localhost/reparaccion/public/storage/{{anuncio?.imagen}}">
+            </ion-avatar>
+        </ion-item>
+
+    </ion-list>
+</ion-content>

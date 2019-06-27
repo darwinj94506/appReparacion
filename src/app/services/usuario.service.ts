@@ -54,12 +54,6 @@ export class UsuarioService {
               this.usuarioSubject.next(resp);
               return true;
             }
-            // console.log(resp);
-            // if(resp.id!=undefined){
-              
-            // }else{
-            //   return false
-            // }          
           }))
     }
     crearUsuario( usuario:RegistroModel ){

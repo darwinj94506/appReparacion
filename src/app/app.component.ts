@@ -45,6 +45,12 @@ export class AppComponent {
         url: '/settings',
         direct: 'forward',
         icon: 'cog'
+      },
+      {
+        title: 'Anuncios',
+        url: '/anuncios',
+        direct: 'forward',
+        icon: 'cog'
       }
     ];
 

@@ -15,6 +15,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { ImagePageModule } from './pages/modal/image/image.module';
 import { SearchFilterPageModule } from './pages/modal/search-filter/search-filter.module';
 import { MapPageModule } from './pages/modal/map/map.module';
+import { CrudAnuncioPageModule } from './pages/modal/crud-anuncio/crud-anuncio.module';
+
 
 // Components
 import { NotificationsComponent } from './components/notifications/notifications.component';
@@ -32,6 +34,7 @@ import { NotificationsComponent } from './components/notifications/notifications
     ImagePageModule,
     SearchFilterPageModule,
     MapPageModule,
+    CrudAnuncioPageModule
    
   ],
   entryComponents: [NotificationsComponent],
